@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<br>
+<br>
+<h1 style="font-family: 'Montserrat', sans-serif;">Dashboard</h1>
+<a href="/add_article" class="btn btn-outline-info btn-lg">Add Article</a>
+<br><br><br>
+<h4 style="font-family: 'Montserrat', sans-serif;">Your Articles</h4>
+{% if articles %}
+<table class="table table-striped">
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Date</th>
+        <th></th>
+        <th></th>
+    </tr>
+    {% for article in articles %}
+    <tr style="font-family: 'Montserrat', sans-serif;">
+        <td>{{article[0]}}</td>
+        <td>{{article[1]}}</td>
+        <td>{{article[2]}}</td>
+        <td>{{article[4]}}</td>
+        <td>
+            <a href="" class="btn btn-warning pull-right">Edit</a>&nbsp;<a href="" class="btn btn-info pull-right">View</a>
+        </td>
+        <td>
+            <form action="" method="post">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="submit" value="Delete" class="btn btn-danger">
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% else %}
+<p>No Articles Published</p>
+{% endif%}
+{% endblock %}

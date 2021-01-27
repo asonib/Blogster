@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-light fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">Blogster</a>
+      <a class="navbar-brand" href="/"><img src= {{logo}} alt="Blogster Logo" class="img-thumbnail" width="40px"></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -16,6 +16,17 @@
           <li class="nav-item">
             <a class="nav-link" href="/articles" >Articles</a>
           </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          {% if session.logged_in %}
+            <li><a class="nav-link" href="/dashboard">Dashboard</a></li>
+            <li><a class="nav-link" href="/logout">Logout</a></li>
+          {% else %}
+            <li><a class="nav-link" href="/register">Register</a></li>
+            <li><a class="nav-link" href="/login">Login</a></li>
+          {% endif %}
+
         </ul>
       </div>
     </div>

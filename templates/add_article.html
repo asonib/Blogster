@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<br><br>
+<h4 style="font-family: 'Montserrat', sans-serif;">Add Article</h4>
+{% from "includes/_formhelpers.html" import render_field %}
+<form method="POST" action="">
+    <div class="form-group">
+        <input type="text" class_="form-control" value={{session.email}} disabled>
+    </div><br>
+    <div class="form-group">
+        {{ render_field(form.title, class_="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ render_field(form.body, class_="form-control", id="editor") }}
+    </div><br>
+    <p><input class="btn btn-primary" type="submit" value="Add Article">
+</form>
+{% endblock %}

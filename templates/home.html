@@ -1,14 +1,18 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<br><br>
+<br><br><br><br>
 <div class="jumbotron text-center">
-    <h1>Welcome To FlaskApp</h1>
-    <p class="lead">This application is built on the Python Flask framework and is the focus for the "Python Flask From Scratch" YouTube series</p>
-    {% if session.logged_in == NULL %}
-      <a href="/register" class="btn btn-primary btn-lg">Register</a>
-      <a href="/login" class="btn btn-success btn-lg">Login</a>
-    {% endif %}
-  </div>
-  
+  <img src={{logo}} alt="Blogster Logo" class="img-thumbnail" width="50px"><br><br>
+  <h1 style="font-family: 'Montserrat', sans-serif; font-size:80px;">Blogster</h1>
+  <p class="lead">The Blogster is a place for people to publish articles and ideas for others to see. Read about what's going on around you. Create an account and start exressing youself.</p>
+  {% if session.logged_in == NULL %}
+  <a href="/register" class="btn btn-outline-primary btn-lg">Register</a>
+  <a href="/login" class="btn btn-outline-success btn-lg">Login</a>
+  <a href="/articles" class="btn btn-outline-info btn-lg">Articles</a>
+  {% else %}
+  <a href="/articles" class="btn btn-outline-info btn-lg">Articles</a>
+  {% endif %}
+</div>
+
 {% endblock %}

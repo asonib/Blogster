@@ -62,9 +62,16 @@ def articles():
             'create_date':'04-25-2017'
         }], logo=logo)
     
-@app.route('/article/<string:id>')
-def article(id):
-    return render_template('article.html', _id=id)
+@app.route('/article/<string:i>')
+@authorization
+def article(i):
+
+    cur = mysql.connection.cursor()
+    result = cur.execute("SELECT * FROM articles WHERE id=%s", [i])
+
+    data = cur.fetchone()
+
+    return render_template('article.html', _id=i, article=data)
 
 class RegisterForm(Form):
     name = StringField('Name', validators=[validators.input_required(), validators.Length(min=2, max=30)])
@@ -143,6 +150,7 @@ def login():
 @authorization
 def logout():
     session.clear()
+    flash('Logout Successful', 'success')
     return redirect('/')
 
 @app.route('/dashboard')
@@ -153,7 +161,6 @@ def dashboard():
     articles = cur.fetchall()
 
     if result > 0:
-        print(articles)
         return render_template('dashboard.html', articles=articles, logo=logo)
     else:
         return render_template('dashboard.html', logo=logo)
@@ -163,6 +170,7 @@ class ArticleForm(Form):
     body = TextAreaField('Body', validators=[validators.input_required(), validators.Length(min=30)])
 
 @app.route('/add_article', methods=['GET', 'POST'])
+@authorization
 def add_article():
     form = ArticleForm(request.form)
     if request.method == 'POST':
@@ -177,6 +185,32 @@ def add_article():
         flash('Article Added.', 'success')
         return redirect(url_for('dashboard'))
     return render_template('add_article.html', form=form, logo=logo)
+
+@app.route('/article/delete/<string:i>', methods=['POST', 'GET'])
+@authorization
+def del_article(i):
+    
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM articles WHERE id=%s", [i])
+    data = cur.fetchone()
+    if data:
+        print(data[2])
+        if data[2] == session['email']:
+            cur.execute("DELETE FROM articles WHERE id=%s", [i])
+            mysql.connection.commit()
+            cur.close()
+            flash('Article Deleted', 'success')
+            return redirect('/dashboard')
+        else:
+            flash('User Unauthorized, Article is not yours to delete!', 'danger')
+            return redirect('/dashboard')
+    else:
+        flash('Article Not Found!', 'danger')
+        return redirect('/dashboard')
+
+@app.errorhandler(404) 
+def not_found(e): 
+  return render_template("404.html", logo=logo) 
 
 if __name__ == '__main__':
     app.secret_key = 'buildv1.1'

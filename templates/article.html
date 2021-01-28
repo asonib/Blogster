@@ -2,5 +2,7 @@
 
 {% block body %}
     <br><br>
-    <h4 style="font-family: 'Montserrat', sans-serif;">Article {{_id}}</h4>
+    <h4 style="font-family: 'Montserrat', sans-serif;">Article {{_id}}</h4><br>
+    <h5 style="font-family: 'Montserrat', sans-serif;">{{article[1] | safe}}</h5>
+    <h6>{{ article[3] | safe }}</h6>
 {% endblock %}

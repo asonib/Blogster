@@ -1,0 +1,10 @@
+{% extends "layout.html" %} 
+
+{% block title %}Page Not Found{% endblock %} 
+{% block body %} 
+  <br><br>
+  <h1 style="font-family: 'Montserrat', sans-serif;">404</h1>
+  <h2 style="font-family: 'Montserrat', sans-serif;">Oops! Looks like the page doesn't exist anymore</h2> 
+  <p>To go to the Home Page</p> <a class="btn btn-success" href="{{ url_for('index') }}">Click Here</a> 
+
+{% endblock %} 

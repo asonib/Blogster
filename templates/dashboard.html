@@ -24,10 +24,10 @@
         <td>{{article[2]}}</td>
         <td>{{article[4]}}</td>
         <td>
-            <a href="" class="btn btn-warning pull-right">Edit</a>&nbsp;<a href="" class="btn btn-info pull-right">View</a>
+            <a href="" class="btn btn-warning pull-right">Edit</a>&nbsp;<a href="/article/{{article[0]}}" class="btn btn-info pull-right">View</a>
         </td>
         <td>
-            <form action="" method="post">
+            <form action="/article/delete/{{article[0]}}" method="POST">
                 <input type="hidden" name="_method" value="DELETE">
                 <input type="submit" value="Delete" class="btn btn-danger">
             </form>

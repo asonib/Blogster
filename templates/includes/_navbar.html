@@ -23,6 +23,7 @@
 
         <ul class="nav navbar-nav navbar-right">
           {% if session.logged_in %}
+            <li><label class="nav-link  text-secondary">Welcome | {{session.email}}</label></li>
             <li><a class="nav-link btn btn-outline-danger text-secondary" href="/logout">Logout</a></li>
           {% else %}
             <li><a class="nav-link" href="/register">Register</a></li>

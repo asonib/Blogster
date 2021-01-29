@@ -40,27 +40,16 @@ def about():
 @app.route('/articles')
 def articles():
     logo = os.path.join(app.config['IMG_PATH'], 'logo.png')
-    return render_template('articles.html', articles=[{
-            'id': 1,
-            'title':'Article One',
-            'body':'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            'author':'John Doe',
-            'create_date':'04-25-2017'
-        },
-        {
-            'id': 2,
-            'title':'Article Two',
-            'body':'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            'author':'John Doe',
-            'create_date':'04-25-2017'
-        },
-        {
-            'id': 3,
-            'title':'Article Three',
-            'body':'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            'author':'John Doe',
-            'create_date':'04-25-2017'
-        }], logo=logo)
+
+    cur = mysql.connection.cursor()
+    result = cur.execute("SELECT * FROM articles")
+    articles = cur.fetchall()
+
+    if result > 0:
+        return render_template('articles.html', articles=articles, logo=logo)
+    else:
+        return render_template('articles.html', msg="No Articles Found", logo=logo)
+
     
 @app.route('/article/<string:i>')
 @authorization
@@ -207,6 +196,40 @@ def del_article(i):
     else:
         flash('Article Not Found!', 'danger')
         return redirect('/dashboard')
+
+@app.route('/article/edit/<string:i>', methods=['GET', 'POST'])
+def edit_article(i):
+    form = ArticleForm(request.form)
+    if request.method == 'GET':
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM articles WHERE id=%s", [i])
+        data = cur.fetchone()
+        
+        if data:
+            if data[2] == session['email']:
+                
+                form.title.data = data[1]
+                form.body.data = data[3]
+                return render_template('edit.html', form=form, logo=logo)
+            else:
+                flash('Article Not your to Edit!', 'danger')
+                return redirect('/dashboard')
+        else:
+            flash('Something went Wrong!', 'danger')
+            return redirect('/dashboard')
+    elif request.method == 'POST':
+        
+        title = form.title.data
+        body = form.body.data
+
+        cur = mysql.connection.cursor()
+        cur.execute("UPDATE articles SET title=%s, body=%s WHERE id=%s",(title, body, i))
+        mysql.connection.commit()
+        cur.close()
+
+        flash('Article Edited', 'success')
+        return redirect(url_for('dashboard'))
+
 
 @app.errorhandler(404) 
 def not_found(e): 

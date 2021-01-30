@@ -1,5 +1,6 @@
 # Blogster
 The Blogster is a Flask based application, a place for people to publish articles and ideas for others to see. Read about what's going on around you. Create an account and start expressing yourself.
+**Switch To your Project Directory**
 
 **Install Virtual Environment Package**:
 - `py -m pip install --user virtualenv`: "(FOR WINDOWS)"

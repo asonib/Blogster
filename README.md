@@ -32,7 +32,7 @@ The Blogster is a Flask based application, a place for people to publish article
    * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 }
 ```
-**flask-mysqldb error:
+**flask-mysqldb error**:
 ```
 Paste the .whl file in the utils folder, inside your root drive(C:\). Then run `pip install -r requirements.txt`
 ```

@@ -1,0 +1,11 @@
+click==7.1.2
+Flask==1.1.2
+Flask-MySQLdb==0.2.0
+Flask-WTF==0.14.3
+itsdangerous==1.1.0
+Jinja2==2.11.2
+MarkupSafe==1.1.1
+mysqlclient @ file:///C:/mysqlclient-1.4.6-cp38-cp38-win32.whl
+passlib==1.7.4
+Werkzeug==1.0.1
+WTForms==2.3.3
